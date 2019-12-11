@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /**
  * i18n.js
  *
@@ -7,14 +8,24 @@
  *   script `extract-intl`, and must use CommonJS module syntax
  *   You CANNOT use import/export in this file.
  */
+if (!Intl.PluralRules) {
+  require('@formatjs/intl-pluralrules/polyfill');
+  require('@formatjs/intl-pluralrules/dist/locale-data/en');
+}
 
-const { addLocaleData } = require('react-intl');
-const enLocaleData = require('react-intl/locale-data/en');
-const { DEFAULT_LOCALE } = require('./locales');
+if (!Intl.RelativeTimeFormat) {
+  require('@formatjs/intl-relativetimeformat/polyfill');
+  require('@formatjs/intl-relativetimeformat/dist/locale-data/en');
+}
 
 const enTranslationMessages = require('./translations/en.json');
 
-addLocaleData(enLocaleData);
+const DEFAULT_LOCALE = 'en';
+
+// prettier-ignore
+const appLocales = [
+  'en',
+];
 
 const formatTranslationMessages = (locale, messages) => {
   const defaultFormattedMessages =
@@ -35,5 +46,7 @@ const translationMessages = {
   en: formatTranslationMessages('en', enTranslationMessages),
 };
 
+exports.appLocales = appLocales;
 exports.formatTranslationMessages = formatTranslationMessages;
 exports.translationMessages = translationMessages;
+exports.DEFAULT_LOCALE = DEFAULT_LOCALE;
