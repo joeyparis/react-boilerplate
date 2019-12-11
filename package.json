@@ -119,7 +119,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "circular-dependency-plugin": "5.2.0",
     "compare-versions": "3.5.1",
-    "compression-webpack-plugin": "3.0.0",
+    "compression-webpack-plugin": "3.0.1",
     "coveralls": "3.0.8",
     "css-loader": "3.2.0",
     "error-overlay-webpack-plugin": "0.4.1",
