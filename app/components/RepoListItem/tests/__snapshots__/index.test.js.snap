@@ -8,7 +8,7 @@ exports[`<RepoListItem /> should render a ListItem 1`] = `
     class="Item-sc-3y9mie-0 fKXSkT"
   >
     <div
-      class="Wrapper-sc-13xnchy-0 kxxMFK"
+      class="Wrapper-sc-13xnchy-0 eDeLQH"
     >
       <a
         class="A-br8h0y-0 RepoLink-sc-1x99nq5-0 cUSWhT"
