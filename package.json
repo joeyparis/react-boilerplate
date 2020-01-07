@@ -64,6 +64,7 @@
     "@hot-loader/react-dom": "16.11.0",
     "@reduxjs/toolkit": "1.0.4",
     "chalk": "3.0.0",
+    "change-case": "4.1.1",
     "compression": "1.7.4",
     "connected-react-router": "6.6.0",
     "cross-env": "6.0.3",

@@ -1,7 +1,8 @@
 /**
  * Container Generator
  */
-
+ 
+const properCase = require('change-case').pascalCase;
 const componentExists = require('../utils/componentExists');
 
 module.exports = {
@@ -13,6 +14,9 @@ module.exports = {
       message: 'What should it be called?',
       default: 'Form',
       validate: value => {
+        if( (/\/\//).test(value) )  return "A parent directory cannot have two adjacent `/`"
+        if( (/^\/|.+\/$/).test(value) ) return "A parent directory cannot start or end with a `/`"
+
         if (/.+/.test(value)) {
           return componentExists(value)
             ? 'A component or container with this name already exists'
@@ -62,16 +66,21 @@ module.exports = {
   ],
   actions: data => {
     // Generate index.js and index.test.js
+    let filePath = data.name.split('/').map(properCase)
+    const fullPath = filePath.join('/')
+    const shortName = filePath.pop()
+    filePath = filePath.join('/')
+
     const actions = [
       {
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/index.js',
+        path: `../../app/containers/${fullPath}/index.js`,
         templateFile: './container/index.js.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/index.test.js',
+        path: `../../app/containers/${fullPath}/tests/index.test.js`,
         templateFile: './container/test.js.hbs',
         abortOnFail: true,
       },
@@ -81,7 +90,7 @@ module.exports = {
     if (data.wantMessages) {
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/messages.js',
+        path: `../../app/containers/${fullPath}/messages.js`,
         templateFile: './container/messages.js.hbs',
         abortOnFail: true,
       });
@@ -93,14 +102,14 @@ module.exports = {
       // Selectors
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/selectors.js',
+        path: `../../app/containers/${fullPath}/selectors.js`,
         templateFile: './container/selectors.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
         path:
-          '../../app/containers/{{properCase name}}/tests/selectors.test.js',
+          `../../app/containers/${fullPath}/tests/selectors.test.js`,
         templateFile: './container/selectors.test.js.hbs',
         abortOnFail: true,
       });
@@ -108,15 +117,14 @@ module.exports = {
       // Slice
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/slice.js',
+        path: `../../app/containers/${fullPath}/slice.js`,
         templateFile: './container/slice.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/slice.test.js',
+        path: `../../app/containers/${fullPath}/tests/slice.test.js`,
         templateFile: './container/slice.test.js.hbs',
-        abortOnFail: true,
       });
     }
 
@@ -124,13 +132,13 @@ module.exports = {
     if (data.wantSaga) {
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/saga.js',
+        path: `../../app/containers/${fullPath}/saga.js`,
         templateFile: './container/saga.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/saga.test.js',
+        path: `../../app/containers/${fullPath}/tests/saga.test.js`,
         templateFile: './container/saga.test.js.hbs',
         abortOnFail: true,
       });
@@ -139,7 +147,7 @@ module.exports = {
     if (data.wantLoadable) {
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/Loadable.js',
+        path: `../../app/containers/${fullPath}/Loadable.js`,
         templateFile: './component/loadable.js.hbs',
         abortOnFail: true,
       });
@@ -147,8 +155,10 @@ module.exports = {
 
     actions.push({
       type: 'prettify',
-      path: '/containers/',
+      path: `/containers${filePath ? `/${filePath}/` : '/'}`,
+      name: shortName
     });
+
 
     return actions;
   },
