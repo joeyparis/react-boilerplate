@@ -48,9 +48,9 @@ module.exports = {
   actions: data => {
     // Generate index.js and index.test.js
     let filePath = data.name.split('/').map(properCase)
-    const fullPath = filePath.join('/')
     const shortName = filePath.pop()
     filePath = filePath.join('/')
+    const fullPath = `${filePath}/${shortName}`
 
     const actions = [
       {
@@ -58,12 +58,14 @@ module.exports = {
         path: `../../app/components/${fullPath}/index.js`,
         templateFile: './component/index.js.hbs',
         abortOnFail: true,
+        data: {filePath, shortName},
       },
       {
         type: 'add',
         path: `../../app/components/${fullPath}/tests/index.test.js`,
         templateFile: './component/test.js.hbs',
         abortOnFail: true,
+        data: {filePath, shortName},
       },
     ];
 
@@ -74,6 +76,7 @@ module.exports = {
         path: `../../app/components/${fullPath}/messages.js`,
         templateFile: './component/messages.js.hbs',
         abortOnFail: true,
+        data: {filePath, shortName},
       });
     }
 
@@ -84,13 +87,15 @@ module.exports = {
         path: `../../app/components/${fullPath}/Loadable.js`,
         templateFile: './component/loadable.js.hbs',
         abortOnFail: true,
+        data: {filePath, shortName},
       });
     }
 
     actions.push({
       type: 'prettify',
       path: `/components${filePath ? `/${filePath}/` : '/'}`,
-      name: shortName
+      name: shortName,
+      data: {filePath, shortName},
     });
 
     return actions;
