@@ -65,13 +65,13 @@ module.exports = {
     const actions = [
       {
         type: 'add',
-        path: `../../app/containers/{{properCase name}}/index.js`,
+        path: '../../app/containers/{{properCase name}}/index.js',
         templateFile: './container/index.js.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: `../../app/containers/{{properCase name}}/tests/index.test.js`,
+        path: '../../app/containers/{{properCase name}}/tests/index.test.js',
         templateFile: './container/test.js.hbs',
         abortOnFail: true,
       },
@@ -108,13 +108,13 @@ module.exports = {
       // Slice
       actions.push({
         type: 'add',
-        path: `../../app/containers/{{properCase name}}/slice.js`,
+        path: '../../app/containers/{{properCase name}}/slice.js',
         templateFile: './container/slice.js.hbs',
         abortOnFail: true,
       });
       actions.push({
         type: 'add',
-        path: `../../app/containers/{{properCase name}}/tests/slice.test.js`,
+        path: '../../app/containers/{{properCase name}}/tests/slice.test.js',
         templateFile: './container/slice.test.js.hbs',
       });
     }
