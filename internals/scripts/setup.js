@@ -80,15 +80,6 @@ async function cleanCurrentRepository() {
     return false;
   }
 
-  const isClone = await checkIfRepositoryIsAClone().catch(reason =>
-    reportError(reason),
-  );
-
-  // Not our clone so do nothing
-  if (isClone === false) {
-    return false;
-  }
-
   const answer = await askUserIfWeShouldRemoveRepo();
 
   if (answer === true) {
